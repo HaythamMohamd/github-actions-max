@@ -223,14 +223,35 @@
 #       - name: Deploy
 #         run: echo "Deploying ... "
 
-# ============================= 08- Expressions and context object  ==========================================
-name: 08- Output info
+# # ============================= 08- Expressions and context object  ==========================================
+# name: 08- Output info
 
-on:  workflow_dispatch
+# on:  workflow_dispatch
 
+# jobs:
+#   info:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Output Github context
+#         run: echo "${{ toJSON(github) }}"
+
+
+#============================= 10- excersis 1  ==========================================
+name: Deployment Exercise 1
+on: push
 jobs:
-  info:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Output Github context
-        run: echo "${{ toJSON(github) }}"
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Test code
+        run: npm run test
+      - name: Build code
+        run: npm run build
+      - name: Deploy code
+        run: echo "Deploying..."
