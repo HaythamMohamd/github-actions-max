@@ -28,15 +28,91 @@
 
 # ============================= 03- React js app test on push  ==========================================
 
-name: 03- React js app test on push 
+# name: 03- React js app test on push 
+# on: push
+# jobs:
+#   first-job:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code 
+#         uses: actions/checkout@v4
+#       - name: Install dependecies 
+#         run: npm ci
+#       - name: Run tests
+#         run: npm test
+
+# ============================= 04- broke tests   ==========================================
+# name: 04- broke tests    
+# on: push
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code 
+#         uses: actions/checkout@v4
+#       - name: Install dependecies 
+#         run: npm ci
+#       - name: Run tests
+#         run: npm test
+
+# to broke test 
+
+# src/components/MainContent.test.jsx:19:49
+
+# import '@testing-library/jest-dom';
+# import { render, screen } from '@testing-library/react';
+# import userEvent from '@testing-library/user-event';
+
+# import MainContent from './MainContent';
+
+# describe('MainContent', () => {
+#   it('should render a button', () => {
+#     render(<MainContent />);
+
+#     expect(screen.getByRole('button')).toBeInTheDocument();
+#   });
+
+#   it('should show the help area after clicking the button', async () => {
+#     render(<MainContent />);
+
+#     const button = screen.getByRole('button');
+#     await userEvent.click(button);
+#     expect(screen.getByTestId('help-area')).not.toBeInTheDocument();  // added not.
+#   });
+# });
+
+#============================= 05- deployment job   ==========================================
+name: 05- deployment job    
 on: push
 jobs:
-  first-job:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Get code 
         uses: actions/checkout@v4
+	  - name: Install NodeJS
+	    uses: actions/setup-node@v3
+		with:
+		  node-version:18
       - name: Install dependecies 
         run: npm ci
       - name: Run tests
         run: npm test
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code 
+        uses: actions/checkout@v4
+	  - name: Install NodeJS
+	    uses: actions/setup-node@v3
+		with:
+		  node-version:18
+      - name: Install dependecies 
+        run: npm ci
+      - name: Run tests
+        run: npm test
+	  - name: Build project
+	    run: npm run build
+	  - name: Deploy
+	    run: echo "Deploying ... "
