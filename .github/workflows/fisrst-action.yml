@@ -224,12 +224,12 @@
 #         run: echo "Deploying ... "
 
 # ============================= 08- Expressions and context object  ==========================================
-name: 08- Output inpo
+name: 08- Output info
 
 on:  workflow_dispatch
 
 jobs:
-  test:
+  info:
     runs-on: ubuntu-latest
     steps:
       - name: Output Github context
