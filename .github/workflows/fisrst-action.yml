@@ -1,10 +1,42 @@
-name: First Workflow
-on: workflow_dispatch
+# ============================= 01- First workflow   ==========================================
+
+# name: First Workflow
+# on: workflow_dispatch
+# jobs:
+#   first-job:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Print greeting
+#         run: echo "Hello World!"
+#       - name: Print goodbye
+#         run: echo "Done - bye!"
+
+# ============================= 02- First workflow with multi line   ==========================================
+
+# name: First Workflow
+# on: workflow_dispatch
+# jobs:
+#   first-job:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Print greeting
+#         run: |
+# 		  echo "Hello World!"
+# 		  echo "Hello World 2 "
+#       - name: Print goodbye
+#         run: echo "Done - bye!"
+
+# ============================= 03- React js app test on push  ==========================================
+
+name: 03- React js app test on push 
+on: push
 jobs:
   first-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Print greeting
-        run: echo "Hello World!"
-      - name: Print goodbye
-        run: echo "Done - bye!"
+      - name: Get code 
+        uses: actions/checkout@v4
+      - name: Install dependecies 
+        run: npm ci
+      - name: Run tests
+        run: npm test
