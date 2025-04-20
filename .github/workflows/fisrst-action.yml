@@ -380,9 +380,9 @@
 # git commit -m "added comment [skip ci] "
 # git push
 
-# ============================= 15- artifact download  ==========================================		
+# ============================= 15- artifact uplaod  ==========================================		
 
-name: Deploy Website
+name: 15- Upload artifact
 on: push
 jobs:
   test:
@@ -405,7 +405,7 @@ jobs:
       - name: Build Website
         run: npm run build
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
             name: dist-files
             path: |
