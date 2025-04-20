@@ -81,8 +81,55 @@
 #   });
 # });
 
-#============================= 05- deployment job   ==========================================
-name: 05- deployment job    
+# #============================= 05- deployment job   ==========================================
+# name: 05- deployment job    
+
+# on: 
+#   push:
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code 
+#         uses: actions/checkout@v4
+
+#       - name: Install NodeJS
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18
+
+#       - name: Install dependencies 
+#         run: npm ci
+
+#       - name: Run tests
+#         run: npm test
+
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code 
+#         uses: actions/checkout@v4
+
+#       - name: Install NodeJS
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18
+
+#       - name: Install dependencies 
+#         run: npm ci
+
+#       - name: Run tests
+#         run: npm test
+
+#       - name: Build project
+#         run: npm run build
+
+#       - name: Deploy
+#         run: echo "Deploying ... "
+
+# ============================= 06- test and deployment jobs  both of them will run sequence using need  ==========================================
+name: 06- test and deployment jobs  both of them will run sequence using need
 
 on: 
   push:
@@ -106,6 +153,7 @@ jobs:
         run: npm test
 
   deploy:
+    needs: test # ensure test passes before deploy
     runs-on: ubuntu-latest
     steps:
       - name: Get code 
