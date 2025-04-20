@@ -176,49 +176,61 @@
 #       - name: Deploy
 #         run: echo "Deploying ... "
 
-# ============================= 07- Using multiple triggers  ==========================================
-name: 07- Using multiple triggers
+# # ============================= 07- Using multiple triggers  ==========================================
+# name: 07- Using multiple triggers
 
-on: [push, workflow_dispatch]
+# on: [push, workflow_dispatch]
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code 
+#         uses: actions/checkout@v4
+
+#       - name: Install NodeJS
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18
+
+#       - name: Install dependencies 
+#         run: npm ci
+
+#       - name: Run tests
+#         run: npm test
+
+#   deploy:
+#     needs: test # ensure test passes before deploy
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code 
+#         uses: actions/checkout@v4
+
+#       - name: Install NodeJS
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18
+
+#       - name: Install dependencies 
+#         run: npm ci
+
+#       - name: Run tests
+#         run: npm test
+
+#       - name: Build project
+#         run: npm run build
+
+#       - name: Deploy
+#         run: echo "Deploying ... "
+
+# ============================= 08- Expressions and context object  ==========================================
+name: 08- Output inpo
+
+on:  workflow_dispatch
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Get code 
-        uses: actions/checkout@v4
-
-      - name: Install NodeJS
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install dependencies 
-        run: npm ci
-
-      - name: Run tests
-        run: npm test
-
-  deploy:
-    needs: test # ensure test passes before deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get code 
-        uses: actions/checkout@v4
-
-      - name: Install NodeJS
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install dependencies 
-        run: npm ci
-
-      - name: Run tests
-        run: npm test
-
-      - name: Build project
-        run: npm run build
-
-      - name: Deploy
-        run: echo "Deploying ... "
+      - name: Output Github context
+        run: echo "${{ toJSON(github) }}"
