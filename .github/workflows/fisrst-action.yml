@@ -453,7 +453,8 @@ jobs:
 
       - name: Publish JS filename
         id: publish
-        run: find dist/assets/*.js -type f -execdir echo 'script-file{}' >> $GITHUB_OUTPUT ';'
+        run: echo "script-file=$(find dist/assets/*.js -type f | head -n 1)" >> $GITHUB_OUTPUT
+        #run: find dist/assets/*.js -type f -execdir echo 'script-file{}' >> $GITHUB_OUTPUT ';'
         #run: find dist/assets/*.js -type f -execdir echo '::set-output name=script-file::{}'  ';'
 
       - name: Upload artifacts
