@@ -300,19 +300,121 @@
 #       - name: Output event details
 #         run: echo "${{ toJSON(github.event) }}"
 
-# ============================= 12- Using activity types  ==========================================		
+# # ============================= 12- Using activity types  ==========================================		
 
-name: Events demo 1
+# name: Events demo 1
 
-on: 
-  pull_request:
-    types:
-      - opened
-  workflow_dispatch:
+# on: 
+#   pull_request:
+#     types:
+#       - opened
+#   workflow_dispatch:
 
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Output event data 
+#         run: echo "${{ toJSON(github.event) }}"
+      
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Test code
+#         run: npm run test
+
+#       - name: Build code
+#         run: npm run build
+
+#       - name: Deploy code
+#         run: echo "Deploying..."
+
+        
+# # ============================= 13- Using filters  ==========================================		
+
+# name: 13- Using filters on branch
+
+# on: 
+#   pull_request:
+#     types:
+#       - opened
+#   workflow_dispatch:
+#   push:
+#     branches:
+#         - main
+#         - 'dev-*'
+#         - 'feat/**'
+#     # paths-ignore:
+#     #     - '.github/workflow/*'
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Output event data 
+#         run: echo "${{ toJSON(github.event) }}"
+      
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Test code
+#         run: npm run test
+
+#       - name: Build code
+#         run: npm run build
+
+#       - name: Deploy code
+#         run: echo "Deploying..."
+
+
+# # # ============================= 14- skip workflow  ==========================================		
+
+# at the commit 
+# git add .
+# git commit -m "added comment [skip ci] "
+# git push
+
+# ============================= 15- artifact download  ==========================================		
+
+name: Deploy Website
+on: push
 jobs:
-  output-info:
+  test:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Test code
+        run: npm run test
+  build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: Output event details
-        run: echo "${{ toJSON(github.event) }}"
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Website
+        run: npm run build
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+            name: dist-files
+            path: |
+              dist
+              package.json
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: echo "Deploying ... "
