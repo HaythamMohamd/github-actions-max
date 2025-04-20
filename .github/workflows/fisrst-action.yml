@@ -617,8 +617,7 @@ jobs:
 
       - name: Output contents
         run: ls
-
-	  - name: Output filename
+      - name: Output filename
         run: ls
       - name: Deploy
         run: echo "Deploying ... "
