@@ -291,11 +291,36 @@
 #       - name: Deploy code
 #         run: echo "Deploying..."
 
-name: Handle issues
-on: issues
+# name: Handle issues
+# on: issues
+# jobs:
+#   output-info:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Output event details
+#         run: echo "${{ toJSON(github.event) }}"
+
+# ============================= 12- Using activity types  ==========================================		
+
+name: Events demo 1
+on: 
+  pull_request:
+    types:
+	  - opened
+  workflow_dispatch:
 jobs:
-  output-info:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Output event details
+      - name: Output event data 
         run: echo "${{ toJSON(github.event) }}"
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+	  - name: test code
+	    run: npm run test
+      - name: Build code
+        run: npm run build
+      - name: Deploy code
+        run: echo "Deploying..."
