@@ -781,6 +781,12 @@ jobs:
       - name: Test code
         run: npm run test
 
+      - name: Upload test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: test.json
+
   build:
     needs: test
     runs-on: ubuntu-latest
@@ -794,11 +800,14 @@ jobs:
       - name: Build Website
         run: npm run build
 
-      - name: Upload test report
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: test-report
-          path: test.json
+          name: dist-files
+          path: |
+            dist
+            package.json
+
 
   deploy:
     needs: build
