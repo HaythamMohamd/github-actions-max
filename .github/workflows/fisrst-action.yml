@@ -890,7 +890,7 @@ jobs:
 
       - name: Deploy
         run: echo "Deploying ... "
-  report:
+  report: # added and will work if any job will fail
     needs: [test,build,deploy]
     if: failure()
     runs-on: ubuntu-latest
