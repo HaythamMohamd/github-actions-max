@@ -971,69 +971,97 @@
 #       - name: Deploy
 #         run: echo "Deploying ... "
 
-# ============================= 26- continue-on-error  ==========================================		
+# # ============================= 26- continue-on-error  ==========================================		
 
-name: 26- continue-on-error  
+# name: 26- continue-on-error  
+# on: push
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Test code
+#         continue-on-error: true
+#         id: run-tests
+#         run: npm run test
+
+#       - name: Upload test report
+#         if: failure() && steps.run-tests.outcome == 'failure' 
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-report
+#           path: test.json
+
+
+
+#   build:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Build Website
+#         run: npm run build
+
+#       - name: Upload artifacts
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: dist-files
+#           path: |
+#             dist
+#             package.json
+
+
+#   deploy:
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Download artifact
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: dist-files
+#           path: dist
+
+#       - name: Output contents
+#         run: ls
+
+#       - name: Deploy
+#         run: echo "Deploying ... "
+
+# ============================= 27- matrix strategy  ==========================================		
+
+name: 27- matrix strategy
 on: push
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      matrix:
+        node-version: [12, 14, 16]
+        operating-system: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.operating-system }}
     steps: 
       - name: Get code
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Test code
-        continue-on-error: true
-        id: run-tests
-        run: npm run test
-
-      - name: Upload test report
-        if: failure() && steps.run-tests.outcome == 'failure' 
-        uses: actions/upload-artifact@v4
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
         with:
-          name: test-report
-          path: test.json
+          node-version: ${{ matrix.node-version }}
 
-
-
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get code
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
+      - name: isntall dependencies
         run: npm ci
 
-      - name: Build Website
+      - name: Build project
         run: npm run build
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-files
-          path: |
-            dist
-            package.json
-
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-files
-          path: dist
-
-      - name: Output contents
-        run: ls
-
-      - name: Deploy
-        run: echo "Deploying ... "
