@@ -900,9 +900,80 @@
 #             echo "Something went wrong"
 #             echo "${{ toJson(github) }}"
 
-# # # ============================= 25- if condition with cache  ==========================================		
+# # # # ============================= 25- if condition with cache  ==========================================		
 
-name: 24- if condition in job level
+# name: 24- if condition in job level
+# on: push
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Get code
+#         uses: actions/checkout@v3
+#       - name: Cache dependencies # added
+#         id: cache
+#         uses: actions/cache@v3
+#         with:
+#             path: node_modules
+#             key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+
+#       - name: Install dependencies
+#         if: steps.cache.outputs.cache-hit != 'true'
+#         run: npm ci
+
+#       - name: Test code
+#         id: run-tests
+#         run: npm run test
+
+#       - name: Upload test report
+#         if: failure() && steps.run-tests.outcome == 'failure' 
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-report
+#           path: test.json
+
+#   build:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Build Website
+#         run: npm run build
+
+#       - name: Upload artifacts
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: dist-files
+#           path: |
+#             dist
+#             package.json
+
+
+#   deploy:
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Download artifact
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: dist-files
+#           path: dist
+
+#       - name: Output contents
+#         run: ls
+
+#       - name: Deploy
+#         run: echo "Deploying ... "
+
+# # ============================= 26- continue-on-error  ==========================================		
+
+name: 26- continue-on-error  
 on: push
 
 jobs:
@@ -911,18 +982,12 @@ jobs:
     steps: 
       - name: Get code
         uses: actions/checkout@v3
-      - name: Cache dependencies # added
-        id: cache
-        uses: actions/cache@v3
-        with:
-            path: node_modules
-            key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Test code
+        continue-on-error: true
         id: run-tests
         run: npm run test
 
@@ -932,6 +997,8 @@ jobs:
         with:
           name: test-report
           path: test.json
+
+
 
   build:
     needs: test
