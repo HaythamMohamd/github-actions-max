@@ -1038,13 +1038,41 @@
 #       - name: Deploy
 #         run: echo "Deploying ... "
 
-# ============================= 27- matrix strategy  ==========================================		
+# # ============================= 27- matrix strategy  ==========================================		
 
-name: 27- matrix strategy
+# name: 27- matrix strategy
+# on: push
+
+# jobs:
+#   build:
+#     strategy:
+#       matrix:
+#         node-version: [12, 14, 16]
+#         operating-system: [ubuntu-latest, windows-latest]
+#     runs-on: ${{ matrix.operating-system }}
+#     steps: 
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install NodeJS
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: ${{ matrix.node-version }}
+
+#       - name: install dependencies
+#         run: npm ci
+
+#       - name: Build project
+#         run: npm run build
+
+# ============================= 27- matrix strategy with continue on error  ==========================================		
+
+name: 27- matrix strategy with continue on error
 on: push
 
 jobs:
   build:
+    continue-on-error: true
     strategy:
       matrix:
         node-version: [12, 14, 16]
@@ -1064,4 +1092,3 @@ jobs:
 
       - name: Build project
         run: npm run build
-
