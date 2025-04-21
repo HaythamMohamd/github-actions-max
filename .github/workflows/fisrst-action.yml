@@ -1065,9 +1065,37 @@
 #       - name: Build project
 #         run: npm run build
 
-# ============================= 27- matrix strategy with continue on error  ==========================================		
+# # ============================= 27- matrix strategy with continue on error  ==========================================		
 
-name: 27- matrix strategy with continue on error
+# name: 27- matrix strategy with continue on error
+# on: push
+
+# jobs:
+#   build:
+#     continue-on-error: true
+#     strategy:
+#       matrix:
+#         node-version: [12, 14, 16]
+#         operating-system: [ubuntu-latest, windows-latest]
+#     runs-on: ${{ matrix.operating-system }}
+#     steps: 
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install NodeJS
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: ${{ matrix.node-version }}
+
+#       - name: install dependencies
+#         run: npm ci
+
+#       - name: Build project
+#         run: npm run build
+
+# ============================= 28- include and exclude  ==========================================		
+
+name: 28- include and exclude 
 on: push
 
 jobs:
@@ -1077,6 +1105,13 @@ jobs:
       matrix:
         node-version: [12, 14, 16]
         operating-system: [ubuntu-latest, windows-latest]
+        include:
+          - node-version: 18
+            operating-system: ubuntu
+        exclude:
+          - node-version: 12
+            operating-system: windows-latest
+
     runs-on: ${{ matrix.operating-system }}
     steps: 
       - name: Get code
