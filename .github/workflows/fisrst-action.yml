@@ -1179,6 +1179,61 @@
 #     needs: build
 #     uses: ./.github/workflows/reusable.yml
 
+# # # ============================= 30- reusable workflow  ==========================================		
+
+# name: 30- reusable workflow
+# on: push
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Test code
+#         id: run-tests
+#         run: npm run test
+
+#       - name: Upload test report
+#         if: failure() && steps.run-tests.outcome == 'failure'
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-report
+#           path: test.json
+
+#   build:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Build Website
+#         run: npm run build
+
+#       - name: Upload artifacts
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: dist-files
+#           path: |
+#             dist
+#             package.json
+
+#   deploy:
+#     needs: build
+#     uses: ./.github/workflows/reusable.yml
+#     with:
+#       artifact-name: dist-files
+#     # secrets: 
+#     #   some-secret: ${{ secrets.some-secret }}
+
 # # ============================= 30- reusable workflow  ==========================================		
 
 name: 30- reusable workflow
@@ -1231,3 +1286,12 @@ jobs:
     uses: ./.github/workflows/reusable.yml
     with:
       artifact-name: dist-files
+    # secrets: 
+    #   some-secret: ${{ secrets.some-secret }}
+
+  print-deploy-result:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output info
+        run: echo "${{ needs.deploy.outputs.result }}"
