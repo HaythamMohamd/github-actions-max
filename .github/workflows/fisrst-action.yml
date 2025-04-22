@@ -1837,7 +1837,71 @@
 
 #
 
-# # ============================= 35- custome actions composite ==========================================		
+# # # ============================= 35- custome actions composite ==========================================		
+
+# name: 35- custome actions composite
+# on: push
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Load and cache dependencies
+#         uses: ./.github/actions/cached-deps
+
+#       - name: Test code
+#         run: npm run test
+
+#   build:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     outputs:
+#       script-file: ${{ steps.publish.outputs.script-file }}
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Load and cache dependencies
+#         uses: ./.github/actions/cached-deps
+
+#       - name: Build Website
+#         run: npm run build
+
+#       - name: Publish JS filename
+#         id: publish
+#         run: echo "script-file=$(find dist/assets/*.js -type f | head -n 1)" >> $GITHUB_OUTPUT
+#         #run: find dist/assets/*.js -type f -execdir echo 'script-file{}' >> $GITHUB_OUTPUT ';'
+#         #run: find dist/assets/*.js -type f -execdir echo '::set-output name=script-file::{}'  ';'
+
+#       - name: Upload artifacts
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: dist-files
+#           path: |
+#             dist
+#             package.json
+
+#   deploy:
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Download artifact
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: dist-files
+#           path: dist
+
+#       - name: Output contents
+#         run: ls
+#       - name: Output filename
+#         run: ls
+#       - name: Deploy
+#         run: echo "Deploying ... "
+
+# # ============================= 36- custome actions composite with inputs ==========================================		
 
 name: 35- custome actions composite
 on: push
