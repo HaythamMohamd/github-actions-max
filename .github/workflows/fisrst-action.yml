@@ -1234,64 +1234,686 @@
 #     # secrets: 
 #     #   some-secret: ${{ secrets.some-secret }}
 
-# # ============================= 30- reusable workflow  ==========================================		
+# # # ============================= 30- reusable workflow  ==========================================		
 
-name: 30- reusable workflow
-on: push
+# name: 30- reusable workflow
+# on: push
 
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Test code
+#         id: run-tests
+#         run: npm run test
+
+#       - name: Upload test report
+#         if: failure() && steps.run-tests.outcome == 'failure'
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-report
+#           path: test.json
+
+#   build:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Build Website
+#         run: npm run build
+
+#       - name: Upload artifacts
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: dist-files
+#           path: |
+#             dist
+#             package.json
+
+#   deploy:
+#     needs: build
+#     uses: ./.github/workflows/reusable.yml
+#     with:
+#       artifact-name: dist-files
+#     # secrets: 
+#     #   some-secret: ${{ secrets.some-secret }}
+
+#   print-deploy-result:
+#     needs: deploy
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Output info
+#         run: echo "${{ needs.deploy.outputs.result }}"
+
+
+# # # ============================= 29- reusable workflow  ==========================================		
+# # create reusable.yml
+# name: Reusable Deploy
+# on: workflow_call
+# jobs:
+#     deploy:
+#         runs-on: ubuntu-latest
+#         steps:
+#             - name: Output info
+#               run: echo "Deploying and uploading "
+
+# name: 29- reusable workflow
+# on: push
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Test code
+#         id: run-tests
+#         run: npm run test
+
+#       - name: Upload test report
+#         if: failure() && steps.run-tests.outcome == 'failure'
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-report
+#           path: test.json
+
+#   build:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Build Website
+#         run: npm run build
+
+#       - name: Upload artifacts
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: dist-files
+#           path: |
+#             dist
+#             package.json
+
+#   deploy:
+#     needs: build
+#     uses: ./.github/workflows/reusable.yml
+	
+	
+# # # ============================= 30- reusable workflow with download static dist dir  ==========================================		
+# # create reusable.yml
+# name: Reusable Deploy
+# on: workflow_call
+# jobs:
+#     deploy:
+#         runs-on: ubuntu-latest
+#         steps:
+#             - name: Download dist dir
+#               uses: actions/download-artifact@v4
+#               with:
+#                 name: dist-files
+#             - name: Output info
+#               run: echo "Deploying and uploading "
+
+# name: 30- reusable workflow
+# on: push
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Test code
+#         id: run-tests
+#         run: npm run test
+
+#       - name: Upload test report
+#         if: failure() && steps.run-tests.outcome == 'failure'
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-report
+#           path: test.json
+
+#   build:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Build Website
+#         run: npm run build
+
+#       - name: Upload artifacts
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: dist-files
+#           path: |
+#             dist
+#             package.json
+
+#   deploy:
+#     needs: build
+#     uses: ./.github/workflows/reusable.yml
+	
+# # # ============================= 31- reusable workflow with download dynamic dist dir  ==========================================		
+# # create reusable.yml
+# name: Reusable Deploy
+# on: 
+#     workflow_call:
+#         inputs:
+#           artifact-name:
+#             description: The name of the deployable artifact files
+#             required: false
+#             default: dist
+#             type: string
+
+# jobs:
+#     deploy:
+#         runs-on: ubuntu-latest
+#         steps:
+#             - name: Download dist dir
+#               uses: actions/download-artifact@v4
+#               with:
+#                 name: ${{ inputs.artifact-name }}
+#             - name: Output info
+#               run: echo "Deploying and uploading "
+
+# name: 30- reusable workflow
+# on: push
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Test code
+#         id: run-tests
+#         run: npm run test
+
+#       - name: Upload test report
+#         if: failure() && steps.run-tests.outcome == 'failure'
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-report
+#           path: test.json
+
+#   build:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Build Website
+#         run: npm run build
+
+#       - name: Upload artifacts
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: dist-files
+#           path: |
+#             dist
+#             package.json
+
+#     deploy:
+#     needs: build
+#     uses: ./.github/workflows/reusable.yml
+#     with:
+#       artifact-name: dist-files
+	  
+# # # ============================= 31- reusable workflow with secrets  ==========================================		
+# # create reusable.yml
+# name: Reusable Deploy
+# on: 
+#     workflow_call:
+#         inputs:
+#           artifact-name:
+#             description: The name of the deployable artifact files
+#             required: false
+#             default: dist
+#             type: string
+#         # secrets:
+#         #   some-secret:
+#         #     required: false
+
+# jobs:
+#     deploy:
+#         runs-on: ubuntu-latest
+#         steps:
+#             - name: Download dist dir
+#               uses: actions/download-artifact@v4
+#               with:
+#                 name: ${{ inputs.artifact-name }}
+#             - name: Output info
+#               run: echo "Deploying and uploading "
+
+# name: 30- reusable workflow
+# on: push
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Test code
+#         id: run-tests
+#         run: npm run test
+
+#       - name: Upload test report
+#         if: failure() && steps.run-tests.outcome == 'failure'
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-report
+#           path: test.json
+
+#   build:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Build Website
+#         run: npm run build
+
+#       - name: Upload artifacts
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: dist-files
+#           path: |
+#             dist
+#             package.json
+
+#     deploy:
+#     needs: build
+#     uses: ./.github/workflows/reusable.yml
+#     with:
+#       artifact-name: dist-files
+#     # secrets: 
+#     #   some-secret: ${{ secrets.some-secret }}
+	
+# # # ============================= 32- reusable workflow with outputs  ==========================================		
+# # create reusable.yml
+# name: Reusable Deploy
+# on: 
+#     workflow_call:
+#         inputs:
+#           artifact-name:
+#             description: The name of the deployable artifact files
+#             required: false
+#             default: dist
+#             type: string
+#         # secrets:
+#         #   some-secret:
+#         #     required: false
+
+# jobs:
+#     deploy:
+#         outputs:
+#           outcome: ${{ steps.set-result.outputs.step-result }}
+#         runs-on: ubuntu-latest
+#         steps:
+#             - name: Download dist dir
+#               uses: actions/download-artifact@v4
+#               with:
+#                 name: ${{ inputs.artifact-name }}
+#             - name: Output info
+#               run: echo "Deploying and uploading "
+#             - name: Set resultu output
+#               id: set-result
+#               run: echo "::set-output name=step-resukt::success"
+
+# name: 30- reusable workflow
+# on: push
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Test code
+#         id: run-tests
+#         run: npm run test
+
+#       - name: Upload test report
+#         if: failure() && steps.run-tests.outcome == 'failure'
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-report
+#           path: test.json
+
+#   build:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v3
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Build Website
+#         run: npm run build
+
+#       - name: Upload artifacts
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: dist-files
+#           path: |
+#             dist
+#             package.json
+
+#     deploy:
+#     needs: build
+#     uses: ./.github/workflows/reusable.yml
+#     with:
+#       artifact-name: dist-files
+#     # secrets: 
+#     #   some-secret: ${{ secrets.some-secret }}
+	
+#   print-deploy-result:
+#     needs: deploy
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Output info
+#         run: echo "${{ needs.deploy.outputs.result }}"
+		
+# # # ============================= 33- container  ==========================================		
+		
+# name: Deployment (Container)
+# on:
+#   push:
+#     branches:
+#       - main
+#       - dev
+# env:
+#   CACHE_KEY: node-deps
+#   MONGODB_DB_NAME: gha-demo
+# jobs:
+#   test:
+#     environment: testing
+#     runs-on: ubuntu-latest
+#     container: 
+# 	  image: node:16
+#     env:
+#       MONGODB_CONNECTION_PROTOCOL: mongodb+srv
+#       MONGODB_CLUSTER_ADDRESS: cluster0.gec7rwb.mongodb.net
+#       MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+#       MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+#       PORT: 8080
+#     steps:
+#       - name: Get Code
+#         uses: actions/checkout@v3
+#       - name: Cache dependencies
+#         uses: actions/cache@v3
+#         with:
+#           path: ~/.npm
+#           key: ${{ env.CACHE_KEY }}-${{ hashFiles('**/package-lock.json') }}
+#       - name: Install dependencies
+#         run: npm ci
+#       - name: Run server
+#         run: npm start & npx wait-on http://127.0.0.1:$PORT # requires MongoDB Atlas to accept requests from anywhere!
+#       - name: Run tests
+#         run: npm test
+#       - name: Output information
+#         run: |
+#           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+#   deploy:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Output information
+#         env:
+#           PORT: 3000
+#         run: |        
+#           echo "MONGODB_DB_NAME: $MONGODB_DB_NAME"
+#           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+#           echo "${{ env.PORT }}"
+		  
+# # # ============================= 34- service container with mongo ==========================================		
+
+# name: Deployment (service Container)
+# on:
+#   push:
+#     branches:
+#       - main
+#       - dev
+# env:
+#   CACHE_KEY: node-deps
+#   MONGODB_DB_NAME: gha-demo
+# jobs:
+#   test:
+#     environment: testing
+#     runs-on: ubuntu-latest
+#     container:	
+# 	  image: node:16
+#     env:
+#       MONGODB_CONNECTION_PROTOCOL: mongodb
+#       MONGODB_CLUSTER_ADDRESS: mongodb
+#       MONGODB_USERNAME: root
+#       MONGODB_PASSWORD: example
+#       PORT: 8080
+#     services:
+#       mongodb:
+#         image: mongo
+#         env:
+#           MONOGO_INITDB_ROOT_USERNAME: root
+#           MONOGO_INITDB_ROOT_PASSWORD: example
+#     steps:
+#       - name: Get Code
+#         uses: actions/checkout@v3
+#       - name: Cache dependencies
+#         uses: actions/cache@v3
+#         with:
+#           path: ~/.npm
+#           key: ${{ env.CACHE_KEY }}-${{ hashFiles('**/package-lock.json') }}
+#       - name: Install dependencies
+#         run: npm ci
+#       - name: Run server
+#         run: npm start & npx wait-on http://127.0.0.1:$PORT # requires MongoDB Atlas to accept requests from anywhere!
+#       - name: Run tests
+#         run: npm test
+#       - name: Output information
+#         run: |
+#           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+#   deploy:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Output information
+#         env:
+#           PORT: 3000
+#         run: |        
+#           echo "MONGODB_DB_NAME: $MONGODB_DB_NAME"
+#           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+#           echo "${{ env.PORT }}"
+# # # ============================= 34- service container with mongo ==========================================		
+
+# name: Deployment (service Container)
+# on:
+#   push:
+#     branches:
+#       - main
+#       - dev
+# env:
+#   CACHE_KEY: node-deps
+#   MONGODB_DB_NAME: gha-demo
+# jobs:
+#   test:
+#     environment: testing
+#     runs-on: ubuntu-latest
+#     # container:
+#     #   image: node:16
+#     env:
+#       MONGODB_CONNECTION_PROTOCOL: mongodb
+#       MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017
+#       MONGODB_USERNAME: root
+#       MONGODB_PASSWORD: example
+#       PORT: 8080
+#     services:
+#       mongodb:
+#         image: mongo
+#         ports:
+#           - 27017:27017
+#         env:
+#           MONOGO_INITDB_ROOT_USERNAME: root
+#           MONOGO_INITDB_ROOT_PASSWORD: example
+#     steps:
+#       - name: Get Code
+#         uses: actions/checkout@v3
+#       - name: Cache dependencies
+#         uses: actions/cache@v3
+#         with:
+#           path: ~/.npm
+#           key: ${{ env.CACHE_KEY }}-${{ hashFiles('**/package-lock.json') }}
+#       - name: Install dependencies
+#         run: npm ci
+#       - name: Run server
+#         run: npm start & npx wait-on http://127.0.0.1:$PORT # requires MongoDB Atlas to accept requests from anywhere!
+#       - name: Run tests
+#         run: npm test
+#       - name: Output information
+#         run: |
+#           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+#   deploy:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Output information
+#         env:
+#           PORT: 3000
+#         run: |        
+#           echo "MONGODB_DB_NAME: $MONGODB_DB_NAME"
+#           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+#           echo "${{ env.PORT }}"
+
+name: Deployment
+on:
+  push:
+    branches:
+      - main
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - name: Get code
         uses: actions/checkout@v3
-
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-
+      - name: Lint code
+        run: npm run lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
       - name: Test code
         id: run-tests
         run: npm run test
-
       - name: Upload test report
         if: failure() && steps.run-tests.outcome == 'failure'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: test-report
           path: test.json
-
   build:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Get code
         uses: actions/checkout@v3
-
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-
-      - name: Build Website
+      - name: Build website
         run: npm run build
-
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: dist-files
-          path: |
-            dist
-            package.json
-
+          path: dist
   deploy:
     needs: build
-    uses: ./.github/workflows/reusable.yml
-    with:
-      artifact-name: dist-files
-    # secrets: 
-    #   some-secret: ${{ secrets.some-secret }}
-
-  print-deploy-result:
-    needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Output info
-        run: echo "${{ needs.deploy.outputs.result }}"
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Get build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist-files
+          path: ./dist
+      - name: Output contents
+        run: ls
+      - name: Deploy site
+        run: echo "Deploying..."
