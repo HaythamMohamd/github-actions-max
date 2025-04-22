@@ -1836,7 +1836,10 @@
 #           echo "${{ env.PORT }}"
 
 #
-name: 26- continue-on-error  
+
+# # ============================= 35- custome actions composite ==========================================		
+
+name: 35- custome actions composite
 on: push
 
 jobs:
@@ -1846,34 +1849,32 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Load and cache dependencies
+        uses: ./.github/actions/cached-deps
 
       - name: Test code
-        id: run-tests
         run: npm run test
-
-      - name: Upload test report
-        if: failure() && steps.run-tests.outcome == 'failure' 
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-report
-          path: test.json
-
-
 
   build:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      script-file: ${{ steps.publish.outputs.script-file }}
     steps:
       - name: Get code
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Load and cache dependencies
+        uses: ./.github/actions/cached-deps
 
       - name: Build Website
         run: npm run build
+
+      - name: Publish JS filename
+        id: publish
+        run: echo "script-file=$(find dist/assets/*.js -type f | head -n 1)" >> $GITHUB_OUTPUT
+        #run: find dist/assets/*.js -type f -execdir echo 'script-file{}' >> $GITHUB_OUTPUT ';'
+        #run: find dist/assets/*.js -type f -execdir echo '::set-output name=script-file::{}'  ';'
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -1882,7 +1883,6 @@ jobs:
           path: |
             dist
             package.json
-
 
   deploy:
     needs: build
@@ -1896,6 +1896,7 @@ jobs:
 
       - name: Output contents
         run: ls
-
+      - name: Output filename
+        run: ls
       - name: Deploy
         run: echo "Deploying ... "
