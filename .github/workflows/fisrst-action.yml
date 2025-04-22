@@ -1903,7 +1903,7 @@
 
 # # ============================= 36- custome actions composite with inputs ==========================================		
 
-name: 35- custome actions composite
+name: 36- custome actions composite with inputs
 on: push
 
 jobs:
@@ -1930,6 +1930,8 @@ jobs:
 
       - name: Load and cache dependencies
         uses: ./.github/actions/cached-deps
+        with:
+          caching: false
 
       - name: Build Website
         run: npm run build
