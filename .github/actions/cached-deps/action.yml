@@ -49,6 +49,7 @@ inputs:
     description: 'Whether to cache dependcies or not.'
     required: false
     default: 'true'
+    
 outputs:
   used-cache:
     description: 'Whether the cache was used.'
