@@ -17,6 +17,31 @@
 
 # # ============================= 36- custome actions composite with inputs ==========================================		
 
+# name: 'Get & Cache Dependencies'
+# description: 'Get the dependencies (Via npm) and cache them'
+# inputs:
+#   caching:
+#     description: 'Whether to cache dependcies or not.'
+#     required: false
+#     default: 'true'
+
+# runs:
+#   using: 'composite'
+#   steps:
+#     - name: Cache dependencies
+#       if: inputs.caching == 'true'
+#       id: cache
+#       uses: actions/cache@v4
+#       with:
+#         path: node_modules
+#         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+#     - name: Install dependencies
+#       if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
+#       run: npm ci
+#       shell: bash
+
+# # ============================= 37- custome actions composite with inputs and output  ==========================================		
+
 name: 'Get & Cache Dependencies'
 description: 'Get the dependencies (Via npm) and cache them'
 inputs:
@@ -24,7 +49,10 @@ inputs:
     description: 'Whether to cache dependcies or not.'
     required: false
     default: 'true'
-
+outputs:
+  used-cache:
+    description: 'Whether the cache was used.'
+    value: ${{ steps.install }}
 runs:
   using: 'composite'
   steps:
@@ -36,6 +64,7 @@ runs:
         path: node_modules
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Install dependencies
+      id: install
       if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
       run: npm ci
       shell: bash
